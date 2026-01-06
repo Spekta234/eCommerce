@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "52644882225",
+    "project_id": "ecommerceapp-8770c",
+    "storage_bucket": "ecommerceapp-8770c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52644882225:android:3359735bb5a6d9f40f7210",
+        "android_client_info": {
+          "package_name": "com.example.spekta_store"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52644882225-hk92ol37iov82bgs3ijn8ocolihti82o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.spekta_store",
+            "certificate_hash": "08092a7e640e48298b0dfcfd0b5575d398b4d063"
+          }
+        },
+        {
+          "client_id": "52644882225-pafb2u3keql9sg79j75vac0p2jkictge.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIhM26LIWhhOV-hSvERRQMGs1JzjDVkAc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "52644882225-pafb2u3keql9sg79j75vac0p2jkictge.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "52644882225-2ao547baa1o2beucgcu1h18msmuhofkb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.spektaStore"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
