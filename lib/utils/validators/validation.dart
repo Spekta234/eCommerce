@@ -1,4 +1,3 @@
-
 class EValidator {
   /// Empty Text Validation
   static String? validateEmptyText(String? fieldName, String? value) {
@@ -35,12 +34,10 @@ class EValidator {
     }
 
     // Check for uppercase letters
-    if (value.contains(RegExp((r'[A-Z]')))) {
       return 'Password must contain at least one uppercase letter.';
     }
 
     // Check for numbers
-    if (value.contains(RegExp(r'[0,9]'))) {
       return 'Password must contain at least one number.';
     }
 
@@ -58,10 +55,8 @@ class EValidator {
     }
 
     // Regular expression for phone number validation (assuming a 10-digit US number format)
-    final phoneRegExp = RegExp(r'^\d{18}$');
 
     if (!phoneRegExp.hasMatch(value)) {
-      return 'Invalid phone number format (10 digits required).';
     }
     return null;
   }

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:spekta_store/common/widgets.login_signup/loaders/loaders.dart';
+import 'package:spekta_store/utils/popups/loaders.dart';
 //
 // /// Manages the network connectivity status and provides methods to check and handle connectivity changes.
 // class NetworkManager extends GetxController{

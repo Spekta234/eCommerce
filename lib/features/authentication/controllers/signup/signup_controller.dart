@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:spekta_store/common/widgets.login_signup/loaders/loaders.dart';
 import 'package:spekta_store/utils/constants/image_strings.dart';
 import 'package:spekta_store/utils/popups/full_screen_loader.dart';
 
