@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spekta_store/utils/popups/loaders.dart';
 import 'package:spekta_store/utils/constants/image_strings.dart';
 import 'package:spekta_store/utils/popups/full_screen_loader.dart';
 
@@ -7,6 +8,8 @@ class SignupController extends GetxController {
   static SignupController get instance => Get.find();
 
   /// Variables
+  final hidePassword = true.obs; // Observable for hiding/showing password
+  final privacyPolicy = true.obs; // Observable for privacy policy acceptance
   final email = TextEditingController(); // controller for email input
   final lastName = TextEditingController(); // controller for last name input
   final username = TextEditingController(); // controller for username input
@@ -30,6 +33,14 @@ class SignupController extends GetxController {
       if (!signupFormKey.currentState!.validate()) return;
 
       // Privacy Policy Check
+      if (!privacyPolicy.value) {
+        ELoaders.warningSnackBar(
+            title: 'Accept Privacy Policy',
+            message: 'In order to create an account, you must read and accept the Privacy Policy & Terms of Use',
+        );
+        return;
+      }
+
 
       // Register user in the Firebase Authentication & Save user data in the Firebase
 

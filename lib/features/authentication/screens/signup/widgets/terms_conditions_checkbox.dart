@@ -18,14 +18,15 @@ class ETermsAndConditionCheckbox extends StatelessWidget {
       children: [
         SizedBox(
           width: 24,
-          height: 26,
+          height: 24,
           child: Obx(
-            () => Checkbox(
-              value: controller.privacyPolicy.value,
-              onChanged:
-                  (value) =>
-                      controller.privacyPolicy.value =
-                          !controller.privacyPolicy.value),
+                () =>
+                Checkbox(
+                    value: controller.privacyPolicy.value,
+                    onChanged:
+                        (value) =>
+                    controller.privacyPolicy.value =
+                    !controller.privacyPolicy.value),
           ),
         ),
         const SizedBox(width: ESizes.spaceBtwItems),
