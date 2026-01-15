@@ -85,14 +85,21 @@ class SignupForm extends StatelessWidget {
           const SizedBox(height: ESizes.spaceBtwInputFields),
 
           ///  password
-          TextFormField(
-            validator: (value) => EValidator.validatePassword(value),
-            controller: controller.password,
-            expands: false,
-            decoration: const InputDecoration(
-              labelText: ETexts.password,
-              prefixIcon: Icon(Iconsax.user),
-              suffixIcon: Icon(Iconsax.eye_slash),
+          Obx(
+            () => TextFormField(
+              validator: (value) => EValidator.validatePassword(value),
+              controller: controller.password,
+              expands: false,
+              obscureText: controller.hidePassword.value,
+              decoration: InputDecoration(
+                labelText: ETexts.password,
+                prefixIcon: const Icon(Iconsax.password_check),
+                suffixIcon: IconButton(
+                    onPressed: () =>
+                controller.hidePassword.value = !controller.hidePassword.value,
+                    icon: Icon(controller.hidePassword.value ? Iconsax.eye_slash : Iconsax.eye)
+                ),
+              ),
             ),
           ),
           const SizedBox(height: ESizes.spaceBtwSections),
