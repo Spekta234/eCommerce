@@ -8,6 +8,7 @@ import 'package:spekta_store/firebase_options.dart';
 
 import 'data/repositories/authentication/authentication_repository.dart';
 
+/// Entry point of Flutter App
 Future<void> main() async {
   
   /// Widgets Binding
@@ -25,9 +26,8 @@ Future<void> main() async {
       (FirebaseApp value) => Get.put(AuthenticationRepository()),
   );
 
-  // Todo : Initialize Authentication
   
-  
+  // Load all the Material Design / Themes / Localization / Bindings
   runApp(const App());
 }
 

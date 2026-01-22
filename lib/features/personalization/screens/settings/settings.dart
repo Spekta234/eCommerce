@@ -5,6 +5,7 @@ import 'package:spekta_store/common/widgets.login_signup/appbar/appbar.dart';
 import 'package:spekta_store/common/widgets.login_signup/custom_shapes/containers/primary_header_contaier.dart';
 import 'package:spekta_store/common/widgets.login_signup/list_tiles/settings_menu_tile.dart';
 import 'package:spekta_store/common/widgets.login_signup/texts/section_heading.dart';
+import 'package:spekta_store/data/repositories/authentication/authentication_repository.dart';
 import 'package:spekta_store/features/personalization/screens/address/address.dart';
 import 'package:spekta_store/features/personalization/screens/profile/profile.dart';
 import 'package:spekta_store/features/shop/screens/order/order.dart';
@@ -18,6 +19,8 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(AuthenticationRepository());
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -87,7 +90,7 @@ class SettingsScreen extends StatelessWidget {
                   const SizedBox(height: ESizes.spaceBtwSections),
                   SizedBox(
                     width: double.infinity,
-                    child: OutlinedButton(onPressed: (){}, child: const Text('Logout')),
+                    child: OutlinedButton(onPressed: () => controller.logout(), child: const Text('Logout')),
                   ),
                   const SizedBox(height: ESizes.spaceBtwSections * 2.5),
                 ],

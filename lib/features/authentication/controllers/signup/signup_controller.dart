@@ -19,10 +19,11 @@ class SignupController extends GetxController {
   final username = TextEditingController(); // controller for username input
   final password = TextEditingController(); // controller for password input
   final firstName = TextEditingController(); // controller for first name input
-  final phoneNumber = TextEditingController(); // controller for phone number input
-  GlobalKey<FormState> signupFormKey = GlobalKey<FormState>(); // Form key for form validation
+  final phoneNumber =
+      TextEditingController(); // controller for phone number input
+  GlobalKey<FormState> signupFormKey =
+      GlobalKey<FormState>(); // Form key for form validation
   final userRepository = Get.put(UserRepository());
-
 
   /// -- SIGNUP
   void signup() async {
@@ -53,17 +54,21 @@ class SignupController extends GetxController {
       // print('IM ALREADYY HEREEEEEEEEEEE');
 
       // Register user in the Firebase Authentication & Save user data in the Firebase
-      final userCredential = await AuthenticationRepository.instance.registerWithEmailAndPassword(email.text.trim(), password.text.trim());
+      final userCredential = await AuthenticationRepository.instance
+          .registerWithEmailAndPassword(
+            email.text.trim(),
+            password.text.trim(),
+          );
 
       // Save Authenticated user data in the Firebase Firestore
       final newUser = UserModel(
-          id: userCredential.user!.uid,
-          firstName: firstName.text.trim(),
-          lastName: lastName.text.trim(),
-          username: username.text.trim(),
-          email: email.text.trim(),
-          phoneNumber: phoneNumber.text.trim(),
-          profilePicture: '',
+        id: userCredential.user!.uid,
+        firstName: firstName.text.trim(),
+        lastName: lastName.text.trim(),
+        username: username.text.trim(),
+        email: email.text.trim(),
+        phoneNumber: phoneNumber.text.trim(),
+        profilePicture: '',
       );
 
       // final userRepository = Get.put(UserRepository());
@@ -72,14 +77,15 @@ class SignupController extends GetxController {
       // Remove Loader
       EFullScreenLoader.stopLoading();
 
-
       // Save Success Message
-      ELoaders.successSnackBar(title: 'Success', message: 'Your account has been created! Please verify your email to continue');
-
+      ELoaders.successSnackBar(
+        title: 'Success',
+        message:
+            'Your account has been created! Please verify your email to continue',
+      );
 
       // Move to verify Email Screen
-      Get.to(() => const VerifyEmailScreen());
-
+      Get.to(() =>  VerifyEmailScreen(email: email.text.trim()));
     } catch (e) {
       // Remove Loader
       EFullScreenLoader.stopLoading();

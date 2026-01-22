@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:spekta_store/common/styles/spacing_styles.dart';
 
 import '../../../utils/constants/sizes.dart';
@@ -20,7 +21,8 @@ class SuccessScreen extends StatelessWidget {
           padding: ESpacingStyles.paddingWithAppBarHeight * 2,
           child: Column(
             children: [
-              Image(image: AssetImage(image), width: EHelperFunctions.screenWidth() * 0.6,),
+              /// Image
+              Lottie.asset(image, width: MediaQuery.of(context).size.width * 0.6),
               const SizedBox(height: ESizes.spaceBtwSections,),
 
               /// Title & Subtitle

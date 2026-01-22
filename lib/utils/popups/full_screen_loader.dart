@@ -23,7 +23,7 @@ class EFullScreenLoader {
          height: double.infinity,
          child: Column(
            children: [
-             const SizedBox(height: 250), // Adjust the spacing as needed
+             const SizedBox(height: 200), // Adjust the spacing as needed
              EAnimatedLoaderWidget(text: text, animation: animation),
            ],
          ),
