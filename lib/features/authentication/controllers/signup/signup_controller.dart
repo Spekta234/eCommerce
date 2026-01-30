@@ -36,18 +36,18 @@ class SignupController extends GetxController {
       // if (!isConnected) return;
 
       // Form Validation
-      // if (!signupFormKey.currentState!.validate()) {
-      //   // Remove Loader
-      //   EFullScreenLoader.stopLoading();
-      //   return;
-      // }
+      if (!signupFormKey.currentState!.validate()) {
+        // Remove Loader
+        EFullScreenLoader.stopLoading();
+        return;
+      }
 
       // Privacy Policy Check
+      //       message: 'In order to create an account, you must read and accept the Privacy Policy & Terms of Use',
+      //   );
       // if (!privacyPolicy.value) {
       //   ELoaders.warningSnackBar(
       //       title: 'Accept Privacy Policy',
-      //       message: 'In order to create an account, you must read and accept the Privacy Policy & Terms of Use',
-      //   );
       //   return;
       // }
 

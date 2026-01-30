@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:spekta_store/common/widgets.login_signup/loaders/shimmer.dart';
+import 'package:spekta_store/features/personalization/controllers/user_controller.dart';
 import 'package:spekta_store/features/shop/screens/cart/cart.dart';
 
 import '../../../../../common/widgets.login_signup/appbar/appbar.dart';
@@ -15,12 +17,20 @@ class EHomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(UserController());
     return EAppBar(
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start ,
         children: [
           Text(ETexts.homeAppBarTitle, style: Theme.of(context).textTheme.labelMedium!.apply(color: EColors.grey)),
-          Text(ETexts.homeAppBarSubTitle, style: Theme.of(context).textTheme.headlineSmall!.apply(color: EColors.white)),
+          Obx(() {
+            if (controller.profileLoading.value) {
+              // Display a shimmer loader while user profile is being loaded
+              return const EShimmerEffects(width: 80, height: 15);
+            } else {
+              return Text(controller.user.value.fullName, style: Theme.of(context).textTheme.headlineSmall!.apply(color: EColors.white));
+            }
+          }),
         ],
       ),
       actions: [

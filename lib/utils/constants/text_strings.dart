@@ -54,6 +54,5 @@ class ETexts{
 
 
   static const homeAppBarTitle = "Good day for shopping";
-  static const homeAppBarSubTitle = "Spekta Max";
 
 }

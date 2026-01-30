@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spekta_store/data/repositories/authentication/authentication_repository.dart';
+import 'package:spekta_store/features/shop/screens/home/home.dart';
+import 'package:spekta_store/navigation_menu.dart';
 
 import '../../../../common/widgets.login_signup/success_screen/success_screen.dart';
 import '../../../../utils/constants/image_strings.dart';
@@ -73,7 +75,8 @@ class VerifyEmailScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed:
-                      () => controller.checkEmailVerificationStatus(),
+                      () =>
+                           controller.checkEmailVerificationStatus(),
                   child: const Text(ETexts.toContinue),
                 ),
               ),

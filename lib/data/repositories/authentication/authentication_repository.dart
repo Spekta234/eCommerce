@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:spekta_store/data/repositories/user/user_repository.dart';
 import 'package:spekta_store/features/authentication/screens/signup/verify_email.dart';
 import 'package:spekta_store/navigation_menu.dart';
 import 'package:spekta_store/utils/exceptions/firebase_auth_exceptions.dart';
@@ -22,6 +23,9 @@ class AuthenticationRepository extends GetxController {
   /// variables
   final deviceStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
+
+  /// Get Authenticated User Data
+  User? get authUser => _auth.currentUser;
 
   /// Called from main.dart on app launch
   @override
@@ -95,7 +99,7 @@ class AuthenticationRepository extends GetxController {
   /// [EmailVerification] - MAIL VERIFICATION
   Future<void> sendEmailVerification() async {
     try {
-      await _auth.currentUser?.sendEmailVerification();
+       await _auth.currentUser?.sendEmailVerification();
     } on FirebaseAuthException catch (e) {
       throw EFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
@@ -109,27 +113,51 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
-  /// [ReAuthenticate] - Re-Authenticate user
+
 
   /// [EmailAuthentication] - FORGOT PASSWORD
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      throw EFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw EFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const EFormatException();
+    } on PlatformException catch (e) {
+      throw EPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
 
-/* ----------------------- Federated identity & social sign-in ---------------------------*/
-  /// [GoogleAuthentication] - GOOGLE
-  // Future<UserCredential?> signInWithGoogle() async {
-  //   try {
-  //
-  //   } on FirebaseAuthException catch (e) {
-  //     throw EFirebaseAuthException(e.code).message;
-  //   } on FirebaseException catch (e) {
-  //     throw EFirebaseException(e.code).message;
-  //   } on FormatException catch (_) {
-  //     throw const EFormatException();
-  //   } on PlatformException catch (e) {
-  //     throw EPlatformException(e.code).message;
-  //   } catch (e) {
-  //     throw 'Something went wrong. Please try again';
-  //   }
-  // }
+
+  /// [ReAuthenticate] - Re-Authenticate user
+  Future<void> reAuthenticateWithEmailAndPassword (String email, String password) async {
+    try{
+      // Create a credential
+      AuthCredential credential = EmailAuthProvider.credential(email: email, password: password);
+
+      // ReAuthenticate
+      await _auth.currentUser!.reauthenticateWithCredential(credential);
+    } on FirebaseAuthException catch (e) {
+      throw EFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw EFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const EFormatException();
+    } on PlatformException catch (e) {
+      throw EPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
+
+
+
+
+
 
   /// [FacebookAuthentication] - FACEBOOK
 
@@ -155,7 +183,21 @@ class AuthenticationRepository extends GetxController {
 
 
   /// [DeleteUser] - Remove user Auth and Firestore account
-
-
+  Future<void> deleteAccount() async {
+    try {
+      await UserRepository.instance.removeUserRecord(_auth.currentUser!.uid);
+      await _auth.currentUser?.delete();
+    } on FirebaseAuthException catch (e) {
+      throw EFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw EFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const EFormatException();
+    } on PlatformException catch (e) {
+      throw EPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
 
 }

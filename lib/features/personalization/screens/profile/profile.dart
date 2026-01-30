@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:spekta_store/common/widgets.login_signup/appbar/appbar.dart';
 import 'package:spekta_store/common/widgets.login_signup/custom_shapes/containers/circular_container.dart';
 import 'package:spekta_store/common/widgets.login_signup/images/e_circular_image.dart';
 import 'package:spekta_store/common/widgets.login_signup/texts/section_heading.dart';
+import 'package:spekta_store/features/personalization/controllers/user_controller.dart';
+import 'package:spekta_store/features/personalization/screens/profile/widgets/change_name.dart';
 import 'package:spekta_store/features/personalization/screens/profile/widgets/profile_menu.dart';
 import 'package:spekta_store/utils/constants/sizes.dart';
 
@@ -14,6 +17,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = UserController.instance;
     return Scaffold(
       appBar: EAppBar(
         showBackArrow: true,
@@ -41,13 +45,24 @@ class ProfileScreen extends StatelessWidget {
               const Divider(),
               const SizedBox(height: ESizes.spaceBtwItems),
 
+              /// Heading Profile Info
+              const ESectionHeading(title: 'Profile Information', showActionButton: false),
+              const SizedBox(height: ESizes.spaceBtwItems),
+
+              EProfileMenu(title: 'Name', value: controller.user.value.fullName, onPressed: () => Get.to(() => const ChangeName())),
+              EProfileMenu(title: 'Username', value: controller.user.value.username, onPressed: (){}),
+
+              const SizedBox(height: ESizes.spaceBtwItems),
+              const Divider(),
+              const SizedBox(height: ESizes.spaceBtwItems),
+
               /// Heading Personal Info
               const ESectionHeading(title: 'Profile Information', showActionButton: false),
               const SizedBox(height: ESizes.spaceBtwItems),
 
-              EProfileMenu(title: 'User ID', value: '45689', icon: Iconsax.copy, onPressed: (){}),
-              EProfileMenu(title: 'E-Mail', value: 'coding_with_t', onPressed: (){}),
-              EProfileMenu(title: 'Phone Number', value: '+234-810-9865-251', onPressed: (){}),
+              EProfileMenu(title: 'User ID', value: controller.user.value.id, icon: Iconsax.copy, onPressed: (){}),
+              EProfileMenu(title: 'E-Mail', value: controller.user.value.email, onPressed: (){}),
+              EProfileMenu(title: 'Phone Number', value: controller.user.value.phoneNumber, onPressed: (){}),
               EProfileMenu(title: 'Gender', value: 'Male', onPressed: (){}),
               EProfileMenu(title: 'Date of Birth', value: '25 April, 2006', onPressed: (){}),
               const Divider(),
@@ -55,7 +70,7 @@ class ProfileScreen extends StatelessWidget {
 
               Center(
                 child: TextButton(
-                    onPressed: (){},
+                    onPressed: () => controller.deleteAccountWarningPopup(),
                     child: const Text('Close Account', style: TextStyle(color: Colors.red))),
               ),
             ],

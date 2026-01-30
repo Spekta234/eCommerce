@@ -21,7 +21,7 @@ class VerifyEmailController extends GetxController {
     super.onInit();
   }
 
-  /// Send Email Verification Link
+  // Send Email Verification Link
   sendEmailVerification() async {
     try {
       await AuthenticationRepository.instance.sendEmailVerification();
@@ -69,4 +69,4 @@ class VerifyEmailController extends GetxController {
   }
 
 
-}
+ }
