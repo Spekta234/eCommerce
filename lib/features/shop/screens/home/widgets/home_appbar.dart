@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:spekta_store/common/widgets.login_signup/loaders/shimmer.dart';
+import 'package:spekta_store/common/widgets.login_signup/shimmers/shimmer.dart';
 import 'package:spekta_store/features/personalization/controllers/user_controller.dart';
 import 'package:spekta_store/features/shop/screens/cart/cart.dart';
 
