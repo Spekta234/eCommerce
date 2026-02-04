@@ -23,6 +23,7 @@ dependencies:
   connectivity_plus: ^5.0.1
   url_launcher: ^6.3.2
   smooth_page_indicator: ^1.2.1
+  cached_network_image: ^3.4.1
 
 
 

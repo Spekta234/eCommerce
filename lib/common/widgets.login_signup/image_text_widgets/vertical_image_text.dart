@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spekta_store/common/widgets.login_signup/images/e_circular_image.dart';
 
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/sizes.dart';
@@ -12,11 +13,13 @@ class EVerticalImageText extends StatelessWidget {
     this.textColor = EColors.white,
     this.backgroundColor,
     this.onTap,
+    this.isNetworkImage = true,
   });
 
   final String image, title;
   final Color textColor;
   final Color? backgroundColor;
+  final bool isNetworkImage;
   final void Function()? onTap;
 
   @override
@@ -30,22 +33,13 @@ class EVerticalImageText extends StatelessWidget {
         child: Column(
           children: [
             /// Circular Icon
-            Container(
-              width: 56,
-              height: 56,
-              padding: const EdgeInsets.all(ESizes.sm),
-              decoration: BoxDecoration(
-                color:
-                    backgroundColor ?? (dark ? EColors.black : EColors.white),
-                borderRadius: BorderRadius.circular(100),
-              ),
-              child: Center(
-                child: Image(
-                  image: AssetImage(image),
-                  fit: BoxFit.cover,
-                  color: dark ? EColors.light : EColors.dark,
-                ),
-              ),
+            ECircularImage(
+              image: image,
+              fit: BoxFit.cover,
+              padding: ESizes.sm * 1.4,
+              isNetworkImage: isNetworkImage,
+              backgroundColor: backgroundColor,
+              overlayColor: EHelperFunctions.isDarkMode(context) ? EColors.light : EColors.dark,
             ),
 
             /// Text
