@@ -6,6 +6,7 @@ import 'package:spekta_store/common/widgets.login_signup/custom_shapes/container
 import 'package:spekta_store/common/widgets.login_signup/layouts/grid_layout.dart';
 import 'package:spekta_store/common/widgets.login_signup/products/cart/cart_menu.dart';
 import 'package:spekta_store/common/widgets.login_signup/texts/section_heading.dart';
+import 'package:spekta_store/features/shop/controllers/category_controller.dart';
 import 'package:spekta_store/features/shop/screens/brand/all_brands.dart';
 import 'package:spekta_store/features/shop/screens/store/widgets/category_tab.dart';
 import 'package:spekta_store/utils/constants/sizes.dart';
@@ -19,8 +20,10 @@ class StoreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final categories = CategoryController.instance.featureCategories;
+
     return DefaultTabController(
-      length: 5,
+      length: categories.length,
       child: Scaffold(
         appBar: EAppBar(
           title: Text(
@@ -78,25 +81,13 @@ class StoreScreen extends StatelessWidget {
 
                 /// Tabs
                 bottom: ETabBar(
-                  tabs: [
-                    Tab(child: Text('Sports')),
-                    Tab(child: Text('Furniture')),
-                    Tab(child: Text('Electronics')),
-                    Tab(child: Text('Clothes')),
-                    Tab(child: Text('Cosmetics')),
-                  ],
+                  tabs: categories.map((category) => Tab(child: Text(category.name))).toList(),
                 ),
               ),
             ];
           },
-          body: const TabBarView(
-            children: [
-              ECategoryTab(),
-              ECategoryTab(),
-              ECategoryTab(),
-              ECategoryTab(),
-              ECategoryTab(),
-            ],
+          body: TabBarView(
+            children: categories.map((category) => ECategoryTab(category: category)).toList()
           ),
         ),
       ),

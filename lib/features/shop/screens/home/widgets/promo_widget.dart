@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spekta_store/features/shop/controllers/banner_controller.dart';
 import 'package:spekta_store/features/shop/controllers/home_controllers.dart';
 
 import '../../../../../common/widgets.login_signup/custom_shapes/containers/circular_container.dart';
@@ -17,12 +18,12 @@ class EPromoSlider extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(HomeController());
+    final controller = Get.put(BannerController());
     return Column(
       children: [
         CarouselSlider(
           options: CarouselOptions(
-            viewportFraction: 2,
+            viewportFraction: 1,
             onPageChanged: (index, _) => controller.updatePageIndicator(index)
           ),
           items: banners.map((url) => ERoundedImage(imageUrl: url, fit: BoxFit.fill,)).toList(),

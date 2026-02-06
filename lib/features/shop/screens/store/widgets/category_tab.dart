@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:spekta_store/common/widgets.login_signup/layouts/grid_layout.dart';
 import 'package:spekta_store/common/widgets.login_signup/products/product_cart/product_card_vertical.dart';
 import 'package:spekta_store/common/widgets.login_signup/texts/section_heading.dart';
+import 'package:spekta_store/features/shop/models/category_model.dart';
 
 import '../../../../../common/widgets.login_signup/brands/brand_show_case.dart';
 import '../../../../../utils/constants/image_strings.dart';
 import '../../../../../utils/constants/sizes.dart';
 
 class ECategoryTab extends StatelessWidget {
-  const ECategoryTab({super.key});
+  const ECategoryTab({super.key, required this.category});
+
+  final CategoryModel category;
 
   @override
   Widget build(BuildContext context) {
