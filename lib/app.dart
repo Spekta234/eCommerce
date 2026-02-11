@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spekta_store/bindings/general_bindings.dart';
+import 'package:spekta_store/routes/app_routes.dart';
 import 'package:spekta_store/utils/constants/colors.dart';
 import 'package:spekta_store/utils/theme/theme.dart';
 import 'features/authentication/screens/onboarding/onboarding.dart';
@@ -15,6 +16,7 @@ class App extends StatelessWidget {
       theme: EAppTheme.lightTheme,
       darkTheme: EAppTheme.darkTheme,
       // initialBinding: GeneralBindings(),
+      getPages: AppRoutes.pages,
       /// Show loader or Circular Progress Indicator meanwhile Authentication Repository is deciding to show relevant screen.
       home: const Scaffold(backgroundColor: EColors.primary, body: Center(child: CircularProgressIndicator(color: Colors.white))),
     );

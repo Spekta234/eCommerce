@@ -66,11 +66,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   /// -- Promo Slider
                   EPromoSlider(
-                    banners: [
-                      EImages.productBanner1,
-                      EImages.productBanner2,
-                      EImages.productBanner3,
-                    ],
+
                   ),
                   const SizedBox(height: ESizes.spaceBtwSections),
 

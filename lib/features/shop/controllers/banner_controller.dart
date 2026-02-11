@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:spekta_store/data/repositories/banners/banner_repository.dart';
+import 'package:spekta_store/features/shop/models/banner_model.dart';
 
 import '../../../common/widgets.login_signup/loaders/loaders.dart';
 
@@ -7,6 +9,14 @@ class BannerController extends GetxController {
   /// Variables
   final isLoading = false.obs;
   final carousalCurrentIndex = 0.obs;
+  final RxList<BannerModel> banners = <BannerModel>[].obs;
+
+
+  @override
+  void onInit() {
+    fetchBanners();
+    super.onInit();
+  }
 
   /// Update Page Navigational Dots
   void updatePageIndicator(index) {
@@ -19,6 +29,12 @@ class BannerController extends GetxController {
       // Show loader while loading categories
       isLoading.value = true;
 
+      // Fetch Banners
+      final bannerRepo = Get.put(BannerRepository());
+      final banners = await bannerRepo.fetchBanners();
+
+      // Assign banners
+      this.banners.assignAll(banners);
 
     } catch (e) {
       ELoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
