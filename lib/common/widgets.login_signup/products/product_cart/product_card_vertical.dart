@@ -4,6 +4,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:spekta_store/common/styles/shadows.dart';
 import 'package:spekta_store/common/widgets.login_signup/custom_shapes/containers/rounded_container.dart';
+import 'package:spekta_store/features/shop/controllers/product/product_controller.dart';
+import 'package:spekta_store/features/shop/models/product_model.dart';
 import 'package:spekta_store/features/shop/screens/product_details/product_details.dart';
 import 'package:spekta_store/utils/constants/colors.dart';
 import 'package:spekta_store/utils/constants/image_strings.dart';
@@ -17,15 +19,18 @@ import '../../texts/product_price_text.dart';
 import '../../texts/product_title_text.dart';
 
 class EProductCardVertical extends StatelessWidget {
-  const EProductCardVertical({super.key});
+  const EProductCardVertical({super.key, required this.product});
+
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
+    final controller = ProductController.instance;
     final dark = EHelperFunctions.isDarkMode(context);
 
     /// Container with side paddings, color, edges, radius and shadows
     return GestureDetector(
-      onTap: () => Get.to(() => const ProductDetails()),
+      onTap: () => Get.to(() =>  ProductDetails(product: product,)),
       child: Container(
         width: 180,
         padding: const EdgeInsets.all(1),
@@ -45,7 +50,7 @@ class EProductCardVertical extends StatelessWidget {
                 children: [
                   /// -- Product Image
                   ERoundedImage(
-                    imageUrl: EImages.productImage1,
+                    imageUrl: product.thumbnail,
                     applyImageRadius: true,
                   ),
 
@@ -91,11 +96,11 @@ class EProductCardVertical extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     EProductTitleText(
-                      title: 'Nike MK2 Tekno White',
+                      title: product.title,
                       smallSize: true,
                     ),
                     const SizedBox(height: ESizes.spaceBtwItems / 2),
-                    EBrandTitleWithVerifiedIcon(title: 'Nike'),
+                    EBrandTitleWithVerifiedIcon(title: product.brand!.name),
                   ],
                 ),
               ),

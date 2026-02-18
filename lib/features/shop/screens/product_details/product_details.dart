@@ -18,10 +18,14 @@ import 'package:spekta_store/utils/helpers/helper_function.dart';
 
 import '../../../../common/widgets.login_signup/texts/section_heading.dart';
 import '../../../../utils/constants/colors.dart';
+import '../../models/product_model.dart';
 import '../product_reviews/product_reviews.dart';
 
 class ProductDetails extends StatelessWidget {
-  const ProductDetails({super.key});
+  const ProductDetails({super.key, required this.product});
+
+  final ProductModel product;
+
 
   @override
   Widget build(BuildContext context) {

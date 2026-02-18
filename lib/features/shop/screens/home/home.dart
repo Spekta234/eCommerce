@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:spekta_store/common/widgets.login_signup/products/product_cart/product_card_vertical.dart';
+import 'package:spekta_store/common/widgets.login_signup/shimmers/vertical_product_shimmer.dart';
+import 'package:spekta_store/features/shop/controllers/product/product_controller.dart';
 import 'package:spekta_store/features/shop/screens/all_products/all_produts.dart';
 import 'package:spekta_store/features/shop/screens/home/widgets/home_appbar.dart';
 import 'package:spekta_store/features/shop/screens/home/widgets/home_categories.dart';
@@ -19,6 +21,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ProductController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -26,7 +29,6 @@ class HomeScreen extends StatelessWidget {
             EPrimaryHeaderContainer(
               child: Column(
                 children: [
-
                   /// -- AppBar
                   const EHomeAppBar(),
                   const SizedBox(height: ESizes.spaceBtwItems),
@@ -40,7 +42,6 @@ class HomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(left: ESizes.defaultSpace),
                     child: Column(
                       children: [
-
                         /// -- Heading
                         ESectionHeading(
                           title: 'Popular Categories',
@@ -65,17 +66,34 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 children: [
                   /// -- Promo Slider
-                  EPromoSlider(
-
-                  ),
+                  EPromoSlider(),
                   const SizedBox(height: ESizes.spaceBtwSections),
 
                   /// -- Heading
-                  ESectionHeading(title: 'Popular Products', onPressed: () => Get.to(() => AllProducts())),
+                  ESectionHeading(
+                    title: 'Popular Products',
+                    onPressed: () => Get.to(() => AllProducts()),
+                  ),
                   const SizedBox(height: ESizes.spaceBtwItems),
 
                   /// -- Popular Products
-                  EGridLayout(itemCount: 2, itemBuilder: (_, index) => const EProductCardVertical()),
+                  Obx(() {
+                    if (controller.isLoading.value)
+                      return const EVerticalProductShimmer();
+
+                    if (controller.featuredProducts.isEmpty) {
+                      return Center(
+                        child: Text(
+                          'No Data Found',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      );
+                    }
+                    return EGridLayout(
+                      itemCount: controller.featuredProducts.length,
+                      itemBuilder: (_, index) => EProductCardVertical(product: controller.featuredProducts[index]),
+                    );
+                  }),
                 ],
               ),
             ),
@@ -85,4 +103,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
