@@ -10,6 +10,7 @@ import 'package:spekta_store/features/shop/screens/product_details/product_detai
 import 'package:spekta_store/utils/constants/colors.dart';
 import 'package:spekta_store/utils/constants/image_strings.dart';
 import 'package:spekta_store/utils/constants/sizes.dart';
+import 'package:spekta_store/utils/enums/enums.dart';
 import 'package:spekta_store/utils/helpers/helper_function.dart';
 
 import '../../icons/e_circular_icon.dart';
@@ -26,6 +27,7 @@ class EProductCardVertical extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = ProductController.instance;
+    final salePercentage = controller.calculateSalePercentage(product.price, product.salePrice);
     final dark = EHelperFunctions.isDarkMode(context);
 
     /// Container with side paddings, color, edges, radius and shadows
@@ -44,14 +46,18 @@ class EProductCardVertical extends StatelessWidget {
             /// Thumbnail, Wishlist Button, Discount Tag
             ERoundedContainer(
               height: 186,
+              width: 186,
               padding: const EdgeInsets.all(ESizes.sm),
               backgroundColor: dark ? EColors.dark : EColors.light,
               child: Stack(
                 children: [
                   /// -- Product Image
-                  ERoundedImage(
-                    imageUrl: product.thumbnail,
-                    applyImageRadius: true,
+                  Center(
+                    child: ERoundedImage(
+                      imageUrl: product.thumbnail,
+                      applyImageRadius: true,
+                      isNetworkImage: true,
+                    ),
                   ),
 
                   /// -- Sale tag
@@ -65,7 +71,7 @@ class EProductCardVertical extends StatelessWidget {
                         vertical: ESizes.xs,
                       ),
                       child: Text(
-                        '25%',
+                        '$salePercentage%',
                         style: Theme.of(
                           context,
                         ).textTheme.labelLarge!.apply(color: Colors.black),
@@ -114,10 +120,29 @@ class EProductCardVertical extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+
+
+
                 /// Price
-                Padding(
-                  padding: EdgeInsets.only(left: ESizes.sm),
-                  child: EProductPriceText(price: '35.0'),
+                Flexible(
+                  child: Column(
+                    children: [
+                      if (product.productType == ProductType.single.toString() && product.salePrice > 0)
+                      Padding(
+                        padding: EdgeInsets.only(left: ESizes.sm),
+                        child: Text(
+                          product.price.toString(),
+                          style: Theme.of(context).textTheme.labelMedium!.apply(decoration: TextDecoration.lineThrough),
+                        ),
+                      ),
+
+                      /// Price, Show sale price as main if sale exist.
+                      Padding(
+                        padding: const EdgeInsets.only(left: ESizes.sm),
+                        child: EProductPriceText(price: controller.getProductPrice(product)),
+                      ),
+                    ],
+                  ),
                 ),
 
                 /// Add to Cart Button

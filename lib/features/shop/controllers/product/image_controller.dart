@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../utils/constants/sizes.dart';
+import '../../models/product_model.dart';
 
 class ImageController extends GetxController {
   static ImageController get instance => Get.find();
@@ -11,55 +12,55 @@ class ImageController extends GetxController {
   RxString selectedProductImage = ''.obs;
 
   /// -- Get All Images from products and variables
-//   List<String> getAllProductImage(EProductModel product) {
-//     // Use Set to add unique images only
-//     Set<String> images = {};
-//
-//     // Load thumbnail image
-//     images.add(product.thumbnail);
-//
-//     // Assign Thumbnail as Selected Image
-//     selectedProductImage.value = product.thumbnail;
-//
-//     // Get all images from the Product Model if not null.
-//     if (product.images != null) {
-//       images.addAll(product.images!);
-//     }
-//
-//     // Get all images from the products variation if not null
-//     if (product.productVariation != null || product.productVariations!.isNotEmpty) {
-//       images.addAll(product.productVariations!.map((variation) => variation.image));
-//     }
-//
-//     return images.toList();
-//   }
-//
-//
-//   /// -- Show Image Popup
-//   void showEnlargedImage(String image) {
-//     Get.to(
-//       fullscreenDialog: true,
-//         () => Dialog.fullscreen(
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             crossAxisAlignment: CrossAxisAlignment.center,
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               Padding(
-//                 padding: const EdgeInsets.symmetric(vertical: ESizes.defaultSpace * 2, horizontal: ESizes.defaultSpace),
-//                 child: CachedNetworkImage(imageUrl: image),
-//               ),
-//               const SizedBox(height: ESizes.spaceBtwItems),
-//               Align(
-//                 alignment: Alignment.bottomCenter,
-//                 child: SizedBox(
-//                   width: 150,
-//                   child: OutlinedButton(onPressed: () => Get.back(), child: const Text('Close')),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//     );
-//   }
+  List<String> getAllProductImages(ProductModel product) {
+    // Use Set to add unique images only
+    Set<String> images = {};
+
+    // Load thumbnail image
+    images.add(product.thumbnail);
+
+    // Assign Thumbnail as Selected Image
+    selectedProductImage.value = product.thumbnail;
+
+    // Get all images from the Product Model if not null.
+    if (product.images != null) {
+      images.addAll(product.images!);
+    }
+
+    // Get all images from the products variation if not null
+    if (product.productVariations != null || product.productVariations!.isNotEmpty) {
+      images.addAll(product.productVariations!.map((variation) => variation.image));
+    }
+
+    return images.toList();
+  }
+
+
+  /// -- Show Image Popup
+  void showEnlargedImage(String image) {
+    Get.to(
+      fullscreenDialog: true,
+        () => Dialog.fullscreen(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: ESizes.defaultSpace * 2, horizontal: ESizes.defaultSpace),
+                child: CachedNetworkImage(imageUrl: image),
+              ),
+              const SizedBox(height: ESizes.spaceBtwItems),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  width: 150,
+                  child: OutlinedButton(onPressed: () => Get.back(), child: const Text('Close')),
+                ),
+              ),
+            ],
+          ),
+        ),
+    );
+  }
 }

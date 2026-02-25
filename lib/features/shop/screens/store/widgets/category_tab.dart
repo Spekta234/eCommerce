@@ -3,6 +3,7 @@ import 'package:spekta_store/common/widgets.login_signup/layouts/grid_layout.dar
 import 'package:spekta_store/common/widgets.login_signup/products/product_cart/product_card_vertical.dart';
 import 'package:spekta_store/common/widgets.login_signup/texts/section_heading.dart';
 import 'package:spekta_store/features/shop/models/category_model.dart';
+import 'package:spekta_store/features/shop/models/product_model.dart';
 
 import '../../../../../common/widgets.login_signup/brands/brand_show_case.dart';
 import '../../../../../utils/constants/image_strings.dart';
@@ -46,7 +47,7 @@ class ECategoryTab extends StatelessWidget {
 
               EGridLayout(
                 itemCount: 4,
-                itemBuilder: (_, index) => EProductCardVertical(),
+                itemBuilder: (_, index) => EProductCardVertical(product: ProductModel.empty()),
               ),
 
             ],

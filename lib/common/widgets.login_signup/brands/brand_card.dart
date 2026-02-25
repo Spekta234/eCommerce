@@ -4,6 +4,7 @@ import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/enums.dart';
 import '../../../utils/constants/image_strings.dart';
 import '../../../utils/constants/sizes.dart';
+import '../../../utils/enums/enums.dart';
 import '../../../utils/helpers/helper_function.dart';
 import '../custom_shapes/containers/rounded_container.dart';
 import '../images/e_circular_image.dart';

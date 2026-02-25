@@ -8,6 +8,7 @@ import 'package:spekta_store/common/widgets.login_signup/products/product_cart/p
 import 'package:spekta_store/features/shop/screens/home/home.dart';
 
 import '../../../../utils/constants/sizes.dart';
+import '../../models/product_model.dart';
 
 class FavoriteScreen extends StatelessWidget {
   const FavoriteScreen({super.key});
@@ -26,7 +27,8 @@ class FavoriteScreen extends StatelessWidget {
           padding: EdgeInsets.all(ESizes.defaultSpace),
           child: Column(
             children: [
-              EGridLayout(itemCount: 6, itemBuilder: (_, index) => const EProductCardVertical())
+              EGridLayout(itemCount: 6, itemBuilder: (_, index) => EProductCardVertical(product: ProductModel.empty()),
+              )
             ],
           ),
         

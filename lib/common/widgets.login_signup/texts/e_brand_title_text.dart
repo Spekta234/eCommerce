@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spekta_store/utils/constants/enums.dart';
 
+import '../../../utils/enums/enums.dart';
+
 class EBrandTitleText extends StatelessWidget {
   const EBrandTitleText({
     super.key,

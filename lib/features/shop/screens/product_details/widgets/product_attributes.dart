@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:spekta_store/common/widgets.login_signup/custom_shapes/containers/rounded_container.dart';
 import 'package:spekta_store/common/widgets.login_signup/texts/product_price_text.dart';
 import 'package:spekta_store/common/widgets.login_signup/texts/product_title_text.dart';
 import 'package:spekta_store/common/widgets.login_signup/texts/section_heading.dart';
+import 'package:spekta_store/features/shop/controllers/product/variation_controller.dart';
+import 'package:spekta_store/features/shop/models/product_model.dart';
 import 'package:spekta_store/utils/constants/colors.dart';
 import 'package:spekta_store/utils/helpers/helper_function.dart';
 
@@ -10,14 +13,19 @@ import '../../../../../common/widgets.login_signup/chips/choice_chip.dart';
 import '../../../../../utils/constants/sizes.dart';
 
 class EProductAttributes extends StatelessWidget {
-  const EProductAttributes({super.key});
+  const EProductAttributes({super.key, required this.product});
+
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(VariationController());
     final dark = EHelperFunctions.isDarkMode(context);
     return Column(
       children: [
         /// -- Selected Attributes Pricing and Description
+        // Display variations price and stock when some variation is selected
+        if (controller.selectedVariation.value.id.isNotEmpty)
         ERoundedContainer(
           padding: const EdgeInsets.all(ESizes.md),
           backgroundColor: dark ? EColors.darkerGrey : EColors.grey,
@@ -88,34 +96,30 @@ class EProductAttributes extends StatelessWidget {
         /// -- Attributes
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ESectionHeading(title: 'Colors', showActionButton: false),
-            SizedBox(height: ESizes.spaceBtwItems / 2),
-            Wrap(
-              spacing: 8,
-              children: [
-                EChoiceChip(text: 'Green', selected: true, onSelected: (value){}),
-                EChoiceChip(text: 'Blue', selected: false, onSelected: (value){}),
-                EChoiceChip(text: 'Yellow', selected: false, onSelected: (value){}),
-              ],
-            ),
-          ],
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ESectionHeading(title: 'Size', showActionButton: false),
-            SizedBox(height: ESizes.spaceBtwItems / 2),
-            Wrap(
-              spacing: 8,
-              children: [
-                EChoiceChip(text: 'EU 34', selected: true, onSelected: (value){}),
-                EChoiceChip(text: 'EU 36', selected: false, onSelected: (value){}),
-                EChoiceChip(text: 'EU 38', selected: false, onSelected: (value){}),
-              ],
-            ),
-          ],
-        ),
+          children: product.productAttributes!.map((attribute) =>
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ESectionHeading(title: attribute.name ?? '', showActionButton: false),
+                  SizedBox(height: ESizes.spaceBtwItems / 2),
+                  Wrap(
+                    spacing: 8,
+                    children: attribute.values!
+                      .map((attributeValue) {
+
+                        final isSelected = controller.selectedAttributes[attribute.name] == attributeValue;
+                        final available = controller
+                            .getAttributesAvailabilityInVariation(product.productVariations!, attribute.name!)
+                            .contains(attributeValue);
+
+                        return EChoiceChip(text: attributeValue, selected: isSelected, onSelected: null);
+                    }).toList())
+                ],
+              )
+          ).toList()
+        )
+
+
       ],
     );
   }

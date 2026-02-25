@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:readmore/readmore.dart';
-import 'package:spekta_store/common/widgets.login_signup/appbar/appbar.dart';
-import 'package:spekta_store/common/widgets.login_signup/custom_shapes/curved_edges/curved_edges_widgets.dart';
-import 'package:spekta_store/common/widgets.login_signup/icons/e_circular_icon.dart';
-import 'package:spekta_store/common/widgets.login_signup/images/e_rounded_image.dart';
 import 'package:spekta_store/features/shop/screens/product_details/widgets/bottom_add_to_cart_widget.dart';
 import 'package:spekta_store/features/shop/screens/product_details/widgets/product_attributes.dart';
 import 'package:spekta_store/features/shop/screens/product_details/widgets/product_image_slider.dart';
 import 'package:spekta_store/features/shop/screens/product_details/widgets/product_meta_data.dart';
 import 'package:spekta_store/features/shop/screens/product_details/widgets/rating_share_widget.dart';
-import 'package:spekta_store/utils/constants/image_strings.dart';
 import 'package:spekta_store/utils/constants/sizes.dart';
-import 'package:spekta_store/utils/helpers/helper_function.dart';
+import 'package:spekta_store/utils/enums/enums.dart';
 
 import '../../../../common/widgets.login_signup/texts/section_heading.dart';
-import '../../../../utils/constants/colors.dart';
 import '../../models/product_model.dart';
 import '../product_reviews/product_reviews.dart';
 
@@ -29,14 +22,13 @@ class ProductDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dark = EHelperFunctions.isDarkMode(context);
     return Scaffold(
       bottomNavigationBar: EBottomAddToCart(),
       body: SingleChildScrollView(
         child: Column(
           children: [
             /// 1 - Product Image Slider
-            EProductImageSlider(),
+            EProductImageSlider(product: product),
 
             /// 2 - Product Details
             Padding(
@@ -45,13 +37,12 @@ class ProductDetails extends StatelessWidget {
                 children: [
                   /// - Rating & Share Button
                   ERatingAndShare(),
-                  
                   /// - Price, Title, Stack and Brand
-                  EProductMetaData(),
+                  EProductMetaData(product: product),
                   
                   /// - Attributes
-                  EProductAttributes(),
-                  const SizedBox(height: ESizes.spaceBtwSections),
+                  if(product.productType == ProductType.variable.toString()) EProductAttributes(product: product),
+                  if(product.productType == ProductType.variable.toString()) const SizedBox(height: ESizes.spaceBtwSections),
                   
                   /// - Checkout Button
                   SizedBox(width: double.infinity, child: ElevatedButton(onPressed: (){}, child: Text('Checkout'))),
@@ -60,8 +51,8 @@ class ProductDetails extends StatelessWidget {
                   /// - Description
                   const ESectionHeading(title: 'Description', showActionButton: false),
                   const SizedBox(height: ESizes.spaceBtwItems),
-                  const ReadMoreText(
-                    'This is a Product description for BLue Sleeve less vest. There are more things that can be added vut i and ssssssssssssssss',
+                  ReadMoreText(
+                    product.description ?? '',
                     trimLines: 2,
                     trimMode: TrimMode.Line,
                     trimCollapsedText: 'Show more',

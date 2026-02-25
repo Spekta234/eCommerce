@@ -5,6 +5,7 @@ import 'package:spekta_store/utils/constants/enums.dart';
 
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/sizes.dart';
+import '../../../utils/enums/enums.dart';
 
 class EBrandTitleWithVerifiedIcon extends StatelessWidget {
   const EBrandTitleWithVerifiedIcon({
