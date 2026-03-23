@@ -22,6 +22,7 @@ class ProductController extends GetxController {
 
   void fetchFeaturedProducts() async {
     try {
+
       // Show loader while loading Products
       isLoading.value = true;
 
@@ -30,11 +31,21 @@ class ProductController extends GetxController {
 
       // Assign Products
       featuredProducts.assignAll(products);
-
     } catch (e) {
       ELoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<List<ProductModel>> fetchAllFeaturedProducts() async {
+    try {
+      // Fetch Products
+      final products = await productRepository.getFeaturedProducts();
+      return products;
+    } catch (e) {
+      ELoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
+      return [];
     }
   }
 

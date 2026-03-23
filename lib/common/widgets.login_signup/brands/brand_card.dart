@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spekta_store/features/shop/models/brand_model.dart';
 
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/enums.dart';
@@ -14,9 +15,10 @@ class EBrandCard extends StatelessWidget {
   const EBrandCard({
     super.key,
     required this.showBorder,
-    this.onTap,
+    this.onTap, required this.brand,
   });
 
+  final BrandModel brand;
   final bool showBorder;
   final void Function()? onTap;
 
@@ -36,7 +38,7 @@ class EBrandCard extends StatelessWidget {
             Flexible(
               child: ECircularImage(
                 isNetworkImage: false,
-                image: EImages.clothIcon,
+                image: brand.image,
                 backgroundColor: Colors.transparent,
                 overlayColor:
                     isDark
@@ -53,11 +55,11 @@ class EBrandCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   EBrandTitleWithVerifiedIcon(
-                    title: 'Nike',
+                    title: brand.name,
                     brandTextSize: TextSizes.large,
                   ),
                   Text(
-                    '256 products',
+                    '${brand.productsCount ?? 0} products',
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.labelMedium,
                   ),

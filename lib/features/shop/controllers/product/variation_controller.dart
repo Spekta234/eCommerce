@@ -13,14 +13,21 @@ class VariationController extends GetxController {
 
   /// -- Select Attribute, and variation
   void onAttributeSelected(ProductModel product, attributeName, attributeValue) {
-    // When attribute is selected we will first add that attribute to the selectedAttributes 5
+    // When attribute is selected we will first add that attribute to the selectedAttributes
     final selectedAttributes = Map<String, dynamic>.from(this.selectedAttributes);
     selectedAttributes[attributeName] = attributeValue;
     this.selectedAttributes[attributeName] = attributeValue;
 
+    print('🔍 Selected Attributes: $selectedAttributes');
+    print('🔍 Total variations: ${product.productVariations?.length}');
+
+
     final selectedVariation = product.productVariations!.firstWhere(
-        (variation) => _isSameAttributesValues(variation.attributeValues, selectedAttributes),
-      orElse: () => ProductVariationModel.empty(),
+
+        (variation) {
+          return _isSameAttributeValues(variation.attributeValues, selectedAttributes);},
+      orElse: () {
+          return ProductVariationModel.empty();}
     );
 
     // Show the selected variation image as a Main Image
@@ -31,12 +38,13 @@ class VariationController extends GetxController {
     // Assign Selected Variation
     this.selectedVariation.value = selectedVariation;
 
+
     // Update Selected product variations status
     getProductVariationStockStatus();
   }
 
   /// -- Check if selected attributes matches any variation attributes
-  bool _isSameAttributesValues(Map<String, dynamic> variationAttributes, Map<String, dynamic> selectedAttributes) {
+  bool _isSameAttributeValues(Map<String, dynamic> variationAttributes, Map<String, dynamic> selectedAttributes) {
     // If selectedAttributes contains 3 attributes and current variation contains 2 then return.
     if (variationAttributes.length != selectedAttributes.length) return false;
 
@@ -64,6 +72,10 @@ class VariationController extends GetxController {
         .toSet();
 
     return availableVariationAttributeValues;
+  }
+
+  String getVariationPrice(){
+    return (selectedVariation.value.salePrice > 0 ? selectedVariation.value.salePrice : selectedVariation.value.price).toString();
   }
 
   /// -- Check Product Variations Stock Status

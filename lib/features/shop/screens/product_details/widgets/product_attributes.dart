@@ -21,107 +21,132 @@ class EProductAttributes extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(VariationController());
     final dark = EHelperFunctions.isDarkMode(context);
-    return Column(
-      children: [
-        /// -- Selected Attributes Pricing and Description
-        // Display variations price and stock when some variation is selected
-        if (controller.selectedVariation.value.id.isNotEmpty)
-        ERoundedContainer(
-          padding: const EdgeInsets.all(ESizes.md),
-          backgroundColor: dark ? EColors.darkerGrey : EColors.grey,
-          child: Column(
-            children: [
-              /// Title, Price and Stock
-              Row(
+    return Obx(
+      () => Column(
+        children: [
+          /// -- Selected Attributes Pricing and Description
+          // Display variations price and stock when some variation is selected
+
+          if (controller.selectedVariation.value.id.isNotEmpty)
+            ERoundedContainer(
+              padding: const EdgeInsets.all(ESizes.md),
+              backgroundColor: dark ? EColors.darkerGrey : EColors.grey,
+              child: Column(
                 children: [
-                  const ESectionHeading(
-                    title: 'variation',
-                    showActionButton: false,
-                  ),
-                  const SizedBox(width: ESizes.spaceBtwItems),
-
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  /// Title, Price and Stock
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          const EProductTitleText(
-                            title: 'Price : ',
-                            smallSize: true,
-                          ),
-                          const SizedBox(width: ESizes.spaceBtwItems),
-
-                          /// Actual Price
-                          Text(
-                            '\$25',
-                            style: Theme.of(context).textTheme.titleSmall!
-                                .apply(decoration: TextDecoration.lineThrough),
-                          ),
-                          const SizedBox(width: ESizes.spaceBtwItems),
-
-                          /// Sale Price
-                          const EProductPriceText(price: '20'),
-                        ],
+                      const ESectionHeading(
+                        title: 'variation',
+                        showActionButton: false,
                       ),
+                      const SizedBox(width: ESizes.spaceBtwItems),
 
-                      /// Stock
-                      Row(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const EProductTitleText(
-                            title: 'Stock : ',
-                            smallSize: true,
+                          Row(
+                            children: [
+                              const EProductTitleText(
+                                title: 'Price : ',
+                                smallSize: true,
+                              ),
+                              const SizedBox(width: ESizes.spaceBtwItems),
+
+                              /// Actual Price
+                              if (controller.selectedVariation.value.salePrice > 0)
+                              Text(
+                                '\$${controller.selectedVariation.value.price}',
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.titleSmall!.apply(
+                                  decoration: TextDecoration.lineThrough,
+                                ),
+                              ),
+                              const SizedBox(width: ESizes.spaceBtwItems),
+
+                              /// Sale Price
+                              EProductPriceText(price: controller.getVariationPrice()),
+                            ],
                           ),
-                          Text(
-                            'In Stock',
-                            style: Theme.of(context).textTheme.titleMedium,
+
+                          /// Stock
+                          Row(
+                            children: [
+                              const EProductTitleText(
+                                title: 'Stock : ',
+                                smallSize: true,
+                              ),
+                              Text(
+                                controller.variationStockStatus.value,
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ],
                   ),
+
+                  /// Variation Description
+                  EProductTitleText(
+                    title:
+                        'This is the Description of the Product and it can go up to max 4 lines',
+                    smallSize: true,
+                    maxLines: 4,
+                  ),
                 ],
               ),
+            ),
+          const SizedBox(height: ESizes.spaceBtwItems),
 
-              /// Variation Description
-              EProductTitleText(
-                title: 'This is the Description of the Product and it can go upto max 4 lines',
-                smallSize: true,
-                maxLines: 4,
-              ),
-            ],
+          /// -- Attributes
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children:
+                product.productAttributes!
+                    .map(
+                      (attribute) => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ESectionHeading(
+                            title: attribute.name ?? '',
+                            showActionButton: false,
+                          ),
+                          SizedBox(height: ESizes.spaceBtwItems / 2),
+                          Obx(
+                            () => Wrap(
+                              spacing: 8,
+                              children:
+                                  attribute.values!.map((attributeValue) {
+                                    final isSelected = controller.selectedAttributes[attribute.name] == attributeValue;
+
+                                    final available = controller.getAttributesAvailabilityInVariation(
+                                      product.productVariations!, attribute.name!,).contains(attributeValue);
+
+                                    return EChoiceChip(
+                                      text: attributeValue,
+                                      selected: isSelected,
+                                      onSelected: available ? (selected) {
+                                                if (selected && available) {
+                                                  controller.onAttributeSelected(
+                                                    product,
+                                                    attribute.name ?? '',
+                                                    attributeValue,
+                                                  );
+                                                }
+                                              } : null,
+                                    );
+                                  }).toList(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                    .toList(),
           ),
-        ),
-        const SizedBox(height: ESizes.spaceBtwItems),
-
-        /// -- Attributes
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: product.productAttributes!.map((attribute) =>
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ESectionHeading(title: attribute.name ?? '', showActionButton: false),
-                  SizedBox(height: ESizes.spaceBtwItems / 2),
-                  Wrap(
-                    spacing: 8,
-                    children: attribute.values!
-                      .map((attributeValue) {
-
-                        final isSelected = controller.selectedAttributes[attribute.name] == attributeValue;
-                        final available = controller
-                            .getAttributesAvailabilityInVariation(product.productVariations!, attribute.name!)
-                            .contains(attributeValue);
-
-                        return EChoiceChip(text: attributeValue, selected: isSelected, onSelected: null);
-                    }).toList())
-                ],
-              )
-          ).toList()
-        )
-
-
-      ],
+        ],
+      ),
     );
   }
 }
-

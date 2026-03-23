@@ -61,6 +61,7 @@ class EProductCardVertical extends StatelessWidget {
                   ),
 
                   /// -- Sale tag
+                  if (salePercentage != null)
                   Positioned(
                     top: 12,
                     child: ERoundedContainer(
@@ -120,9 +121,6 @@ class EProductCardVertical extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-
-
-
                 /// Price
                 Flexible(
                   child: Column(

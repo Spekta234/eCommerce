@@ -21,7 +21,9 @@ class ProductVariationModel {
   });
 
   /// Create Empty func for clean code
-  static ProductVariationModel empty() => ProductVariationModel(id: '', attributeValues: {});
+  static ProductVariationModel empty() => ProductVariationModel(id: '',
+      attributeValues: {}
+  );
 
   /// Json Format
   toJson() {
