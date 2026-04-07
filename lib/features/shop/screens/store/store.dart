@@ -106,6 +106,8 @@ class StoreScreen extends StatelessWidget {
               ),
             ];
           },
+
+          /// -- Body
           body: TabBarView(
             children: categories.map((category) => ECategoryTab(category: category)).toList()
           ),

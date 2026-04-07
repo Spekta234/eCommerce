@@ -48,10 +48,12 @@ static const String successfulPaymentIcon = 'assets/icons/payment_methods/succes
 
   // -- Product images
   static const String user = "assets/images/user/user.png";
+  static const String pencilAnimation = "assets/images/animations/Pencil Animation.gif";
 
 
   static const String productImage1 = "assets/images/products/nike-shoes.png";
   static const String productImage2 = "assets/images/products/jacket.png";
   static const String productImage3 = "assets/images/products/nike-mk2-atmosphere-grey.png";
+
 
 }

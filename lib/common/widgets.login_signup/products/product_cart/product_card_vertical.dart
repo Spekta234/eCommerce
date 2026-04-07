@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:spekta_store/common/styles/shadows.dart';
 import 'package:spekta_store/common/widgets.login_signup/custom_shapes/containers/rounded_container.dart';
+import 'package:spekta_store/common/widgets.login_signup/products/favorite_icon/favorite_icon.dart';
 import 'package:spekta_store/features/shop/controllers/product/product_controller.dart';
 import 'package:spekta_store/features/shop/models/product_model.dart';
 import 'package:spekta_store/features/shop/screens/product_details/product_details.dart';
@@ -81,13 +82,10 @@ class EProductCardVertical extends StatelessWidget {
                   ),
 
                   /// -- Favorite Icon Button
-                  const Positioned(
+                  Positioned(
                     top: 0,
                     right: 0,
-                    child: ECircularIcon(
-                      icon: Iconsax.heart5,
-                      color: Colors.red,
-                    ),
+                   child: EFavoriteIcon(productId: product.id),
                   ),
                 ],
               ),

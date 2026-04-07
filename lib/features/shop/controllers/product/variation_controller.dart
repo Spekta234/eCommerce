@@ -18,10 +18,6 @@ class VariationController extends GetxController {
     selectedAttributes[attributeName] = attributeValue;
     this.selectedAttributes[attributeName] = attributeValue;
 
-    print('🔍 Selected Attributes: $selectedAttributes');
-    print('🔍 Total variations: ${product.productVariations?.length}');
-
-
     final selectedVariation = product.productVariations!.firstWhere(
 
         (variation) {

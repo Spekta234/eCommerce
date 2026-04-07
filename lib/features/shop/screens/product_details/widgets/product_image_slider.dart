@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:spekta_store/common/widgets.login_signup/products/favorite_icon/favorite_icon.dart';
 
 import '../../../../../common/widgets.login_signup/appbar/appbar.dart';
 import '../../../../../common/widgets.login_signup/custom_shapes/curved_edges/curved_edges_widgets.dart';
@@ -87,9 +88,9 @@ class EProductImageSlider extends StatelessWidget {
             ),
 
             /// AppBar Icons
-            const EAppBar(
+            EAppBar(
               showBackArrow: true,
-              actions: [ECircularIcon(icon: Iconsax.heart5, color: Colors.red)],
+              actions: [EFavoriteIcon(productId: product.id)],
             ),
           ],
         ),

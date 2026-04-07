@@ -5,19 +5,27 @@ import 'package:spekta_store/common/widgets.login_signup/images/e_rounded_image.
 import 'package:spekta_store/common/widgets.login_signup/texts/e_brand_title_text_with_verified_icon.dart';
 import 'package:spekta_store/common/widgets.login_signup/texts/product_price_text.dart';
 import 'package:spekta_store/common/widgets.login_signup/texts/product_title_text.dart';
+import 'package:spekta_store/common/widgets.login_signup/products/favorite_icon/favorite_icon.dart';
+import 'package:spekta_store/features/shop/models/product_model.dart';
 import 'package:spekta_store/utils/helpers/helper_function.dart';
 
+import '../../../../features/shop/controllers/product/product_controller.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
+import '../../../../utils/enums/enums.dart';
 import '../../../styles/shadows.dart';
 import '../../icons/e_circular_icon.dart';
 
 class EProductCardHorizontal extends StatelessWidget {
-  const EProductCardHorizontal({super.key});
+  const EProductCardHorizontal({super.key, required this.product});
+
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
+    final controller = ProductController.instance;
+    final salePercentage = controller.calculateSalePercentage(product.price, product.salePrice);
     final dark = EHelperFunctions.isDarkMode(context);
     return Container(
       width: 310,
@@ -40,12 +48,14 @@ class EProductCardHorizontal extends StatelessWidget {
                   height: 120,
                   width: 120,
                   child: ERoundedImage(
-                    imageUrl: EImages.productImage1,
+                    imageUrl: product.thumbnail,
                     applyImageRadius: true,
+                    isNetworkImage: true,
                   ),
                 ),
 
                 /// -- Sale tag
+                if (salePercentage != null)
                 Positioned(
                   top: 12,
                   child: ERoundedContainer(
@@ -56,7 +66,7 @@ class EProductCardHorizontal extends StatelessWidget {
                       vertical: ESizes.xs,
                     ),
                     child: Text(
-                      '25%',
+                      '$salePercentage',
                       style: Theme.of(
                         context,
                       ).textTheme.labelLarge!.apply(color: Colors.black),
@@ -68,7 +78,7 @@ class EProductCardHorizontal extends StatelessWidget {
                 Positioned(
                   top: 0,
                   right: 0,
-                  child: ECircularIcon(icon: Iconsax.heart5, color: Colors.red),
+                  child: EFavoriteIcon(productId: product.id),
                 ),
               ],
             ),
@@ -85,21 +95,41 @@ class EProductCardHorizontal extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      EProductTitleText(title: 'Nike MK2 Tekno White', smallSize: true),
+                      EProductTitleText(title: product.title, smallSize: true),
                       SizedBox(height: ESizes.spaceBtwItems / 2),
-                      EBrandTitleWithVerifiedIcon(title: 'Nike')
+                      EBrandTitleWithVerifiedIcon(title: product.brand!.name)
                     ],
                   ),
 
                   const Spacer(),
 
+                  /// Price Row
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      /// Pricing
-                      const Flexible(child: EProductPriceText(price: '256.0')),
+                      /// Price
+                      Flexible(
+                        child: Column(
+                          children: [
+                            if (product.productType == ProductType.single.toString() && product.salePrice > 0)
+                              Padding(
+                                padding: EdgeInsets.only(left: ESizes.sm),
+                                child: Text(
+                                  product.price.toString(),
+                                  style: Theme.of(context).textTheme.labelMedium!.apply(decoration: TextDecoration.lineThrough),
+                                ),
+                              ),
 
-                      /// Add to Cart
+                            /// Price, Show sale price as main if sale exist.
+                            Padding(
+                              padding: const EdgeInsets.only(left: ESizes.sm),
+                              child: EProductPriceText(price: controller.getProductPrice(product)),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      /// Add to Cart Button
                       Container(
                         decoration: const BoxDecoration(
                           color: EColors.dark,
@@ -117,7 +147,7 @@ class EProductCardHorizontal extends StatelessWidget {
                         ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),

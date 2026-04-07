@@ -28,7 +28,7 @@ class BrandProducts extends StatelessWidget {
               SizedBox(height: ESizes.spaceBtwItems),
 
               FutureBuilder(
-                future: controller.getBrandProducts(brand.id),
+                future: controller.getBrandProducts(brandId: brand.id),
                 builder: (context, snapshot) {
 
                   /// Handle loader, No Record, OR Error Message

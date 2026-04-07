@@ -13,6 +13,7 @@ import 'package:spekta_store/utils/exceptions/firebase_auth_exceptions.dart';
 import 'package:spekta_store/utils/exceptions/firebase_exceptions.dart';
 import 'package:spekta_store/utils/exceptions/format_exceptions.dart';
 import 'package:spekta_store/utils/exceptions/platform_exceptions.dart';
+import 'package:spekta_store/utils/local_storage/storage_utility.dart';
 
 import '../../../features/authentication/screens/login/login.dart';
 import '../../../features/authentication/screens/onboarding/onboarding.dart';
@@ -42,8 +43,14 @@ class AuthenticationRepository extends GetxController {
     if(user != null){
       // If user is logged in
       if(user.emailVerified){
+
+        // Initialize User Specific Storage
+        await ELocalStorage.init(user.uid);
+
+        // If the user's email is verified, navigate to the navigation menu
         Get.offAll(() => const NavigationMenu());
       } else {
+        // If the user's email is not verified, navigate to verifyEmailScreen
         Get.offAll(() => VerifyEmailScreen(email: _auth.currentUser?.email));
       }
     } else {

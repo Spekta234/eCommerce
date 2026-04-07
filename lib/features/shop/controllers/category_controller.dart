@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 import 'package:spekta_store/common/widgets.login_signup/loaders/loaders.dart';
 import 'package:spekta_store/data/repositories/categories/category_repository.dart';
+import 'package:spekta_store/data/repositories/product/product_repository.dart';
 import 'package:spekta_store/features/shop/models/category_model.dart';
+import 'package:spekta_store/features/shop/models/product_model.dart';
 
 class CategoryController extends GetxController {
   static CategoryController get instance => Get.find();
@@ -40,6 +42,26 @@ class CategoryController extends GetxController {
   }
 
   ///  -- Load selected category data
+  Future<List<CategoryModel>> getSubCategories(String categoryId) async {
+    try {
+      final subCategories = await _categoryRepository.getSubCategories(categoryId);
+      return subCategories;
+    } catch (e) {
+      ELoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
+      return [];
+    }
+  }
 
   /// Get Category or Sub-Category Products.
+  Future<List<ProductModel>> getCategoryProducts({required String categoryId, int limit = 4}) async {
+    try {
+      // fetch listed (4) products against each subCategory;
+      final products = await ProductRepository.instance.getProductsForCategory(categoryId: categoryId, limit: limit);
+      return products;
+    } catch (e) {
+      ELoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
+      return [];
+    }
+  }
+
 }
